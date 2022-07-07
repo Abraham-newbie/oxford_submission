@@ -1,0 +1,11 @@
+name: rshinyapp
+title:
+username:
+account: econ-newbie
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6603116
+bundleId: 6076218
+url: https://econ-newbie.shinyapps.io/rshinyapp/
+when: 1657141383.53885
+lastSyncTime: 1657141383.53885
