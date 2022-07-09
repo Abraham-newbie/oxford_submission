@@ -15,7 +15,7 @@ library(plotly)
 library("readxl")
 # xls files
 
-#setwd("C:/Users/abrah/Desktop/R-Shiny-Experiments/education")
+#setwd("C:/Users/abrah/Dropbox/oxford_submission/RshinyApp/")
 
 
 org_data <- read_excel("hlo_database.xlsx", sheet = "HLO Database")
@@ -111,9 +111,6 @@ hist_plot<-function(Year=2012,var="hlo",countries= c("Sweden","Belgium","Norway"
 
 hist_plot()
 
-install.packages("ggthemes")
-library(ggthemes)
-
 map_plot<-function(variable="lays"){
  
   
@@ -163,8 +160,11 @@ ui <- fluidPage(
   mainPanel(
     fluidRow(
       align = "left",
-      strong("Visualizations of Harmonized Learning Outcomes: "),
-      em( "This RShiny app provides simple visualizations of the HLO (Harmonized Learning Outcomes) as introduced by Angrist, N., Djankov, S., Goldberg, P.K. et al. (2021). Graphs can only be constructed if enough data points exist. The data is publically available at https://datacatalog.worldbank.org/search/dataset/0038001. The app is not adequately bug tested and all errors are my own."),
+      strong("Visualizations of Learning Outcomes: "),
+      em( "This RShiny app provides simple visualizations of the HLO (Harmonized Learning Outcomes) Database as introduced by Angrist, N., Djankov, S., Goldberg, P.K. et al. (2021) and data 
+      from the World Bank's Human Capital Project (2020). Graphs can only 
+      be constructed if enough data points exist. The app is not adequately bug tested and all errors are my own.
+         "),
       br(),
       code(""),
       br(),
@@ -246,7 +246,9 @@ ui <- fluidPage(
     column(4, 
            "",
            selectInput(
-             "variable5", "Variable of interest", vars,
+             "variable5", "Variable of interest", c( "Harmonized Learning Outcome" = "hlo",
+                                                     "Harmonized Learning Outcome (Male)" = "hlo_m",
+                                                     "Harmonized Learning Outcome (Female)" = "hlo_f"),
              multiple = FALSE
            ),
            selectInput(

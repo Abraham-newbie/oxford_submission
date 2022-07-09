@@ -5,7 +5,9 @@ account: econ-newbie
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6603116
-bundleId: 6076218
+bundleId: 6084142
 url: https://econ-newbie.shinyapps.io/rshinyapp/
-when: 1657141383.53885
-lastSyncTime: 1657141383.53885
+when: 1657386268.42454
+lastSyncTime: 1657386268.42454
+asMultiple: FALSE
+asStatic: FALSE
