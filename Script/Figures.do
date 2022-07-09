@@ -14,7 +14,7 @@
 ************************************ 
 		
 		
-global root 		"C:\Users\abrah\Dropbox\RA Task Oxford" // Change directory accordingly
+global root 		"C:\Users\abrah\Dropbox\oxford_submission" // Change directory accordingly
 global raw_data 	"$root\Raw_data"
 global clean_data 	"$root\Clean_data"
 global output 	    "$root\Output"
@@ -30,6 +30,7 @@ global output 	    "$root\Output"
 ***********************************
 * Density plot of enrollment
 ************************************
+graph set window fontface "Arial"
 
 
 use "$raw_data\enroll_learning.dta", replace
@@ -112,9 +113,9 @@ preserve
 
 
 set scheme s1color
-collapse (mean)lays (mean)eys ,by(Region)
+collapse (median)lays (median)eys ,by(Region)
 sort lays
-graph hbar (asis) eys lays ,over(Region, sort(lays) label(labsize(small))) scale(*.7)    bar(1, color(erose)) bar(2, color(teal)) ///
+graph hbar (asis) eys lays ,over(Region, sort(lays)  label(labsize(small))) scale(*.7)    bar(1, color(erose)) bar(2, color(teal)) ///
 blabel(total, format(%9.1f) position(inside) size(small))intensity(70) legend(order(1 "Expected Years of Schooling" 2 "Learning Adjusted Years of Schooling")) 
 
 
@@ -143,10 +144,10 @@ replace WBCode ="" if !inlist(WBCode,"YEM","COM","GHA","KEN") &!inlist(WBCode,"L
 *keep if inlist(IncomeGroup,"Lower middle income","Low income")
 set scheme plotplain
 twoway  ///
-		(scatter eys	lays if Region=="Middle East & North Africa" &  inlist(IncomeGroup,"Lower middle income","Low income") ,mlabel(WBCode) msymbol(circle) msize(vsmall ) mcolor(red)) ///
+		(scatter eys	lays if Region=="Middle East & North Africa" &  inlist(IncomeGroup,"Lower middle income","Low income")  ,mlabel(WBCode) msymbol(circle) msize(vsmall ) mcolor(red)) ///
 		(scatter eys	lays if Region=="Sub-Saharan Africa" &  inlist(IncomeGroup,"Lower middle income","Low income") ,mlabel(WBCode) msymbol(circle ) msize(vsmall ) mcolor(blue)) ///
 		(scatter eys	lays if !inlist(Region,"Sub-Saharan Africa","Middle East & North Africa") &  inlist(IncomeGroup,"Lower middle income","Low income") ,mlabel(WBCode) msymbol(circle_hollow) msize(small) ) /// 
-		  (lfit  eys	lays if inlist(Region,"Sub-Saharan Africa","Middle East & North Africa"),  lpattern(dash) lcolor( khaki ) ) , ///
+		  (lfit  eys	lays if inlist(Region,"Sub-Saharan Africa","Middle East & North Africa"),  lpattern(dash) lcolor( khaki ) )  , ///
 		 scale(*.9) xtitle("Learning Adjusted Years of Schooling" " ",size(small)  )  ytitle("Expected Years of Schooling" "",size(small)) legend(order(1 "Middle East & North Africa" 2 "Sub-Saharan Africa" 3 "Low Income Countries (other)") position(0) bplacement(seast))  ///
 	    xlabel(0(2)14) ylabel(0(2)14)
 
@@ -227,7 +228,7 @@ foreach var in `r(varlist)' {
 destring _all,replace
 
 
-
+save "$clean_data\hci_data_male_female_september_2020.dta"
 
 preserve
 sort Region lays_fem lays_male
@@ -248,7 +249,8 @@ set scheme plotplain
 twoway  ///
 		(scatter lays_fem	lays_male if Region=="Middle East & North Africa",  mlabel(WBCode)  msymbol(circle) mlabsize(small) msize(vsmall ) mcolor(red)) ///
 		(scatter lays_fem	lays_male if Region=="Sub-Saharan Africa", mlabel(WBCode) msymbol(circle) mlabsize(small) msize(vsmall ) mcolor(blue)) ///
-		(scatter lays_fem	lays_male if !inlist(Region,"Sub-Saharan Africa","Middle East & North Africa") , mlabel(WBCode) mlabsize(small)  msymbol(circle) msize(vsmall ) ) , ///
+		(scatter lays_fem	lays_male if !inlist(Region,"Sub-Saharan Africa","Middle East & North Africa") , mlabel(WBCode) mlabsize(small)  msymbol(circle) msize(vsmall ) ) ///
+		(function y=x, range(0 14)) , ///
 		  xlabel(0(2)14) ylabel(0(2)14)  scale(*.6) xtitle( "Learning Adjusted Years of Schooling (Male) ",size(small)  )  ytitle("Learning Adjusted Years of Schooling  (Female)",size(small)) legend(order(1 "Middle East & North Africa" 2 "Sub-Saharan Africa") position(0) bplacement(seast))  ///
 	    
 restore
@@ -265,6 +267,24 @@ graph export "$output/lays_vs_lays_sex.png",replace
 ****************************************************************
 
 
+
+use "$clean_data/hci_data_female_september_2020.dta",clear
+gen lays_adjustment_male = lays_male-eys_male
+gen lays_adjustment_fem = lays_fem-eys_fem
+
+
+collapse (median) lays_male  (median) lays_fem (median) lays_adjustment_fem (median) lays_adjustment_male ,by(Region)
+
+gen diff_lays= lays_male-lays_fem
+gen diff_lays_adj=   lays_adjustment_male-lays_adjustment_fem
+
+
+estpost tabstat lays_male  lays_fem  diff_lays  diff_lays_adj, by(Region) 
+esttab,   cells("lays_male  lays_fem  diff_lays  diff_lays_adj" ) noobs nomtitle ///
+nonumber varlabels(`e(labels)') drop(Total) varwidth(30) b(%9.1f) ///
+ tex
+
+
 *****************************************************************
 *HLO - with country fixed effects
 *****************************************************************
@@ -272,7 +292,6 @@ graph export "$output/lays_vs_lays_sex.png",replace
 
 
 use "$clean_data\hci_data_september_2020.dta",clear
-
 
 
 
@@ -408,7 +427,6 @@ graph export "$output/hlo_year.png",replace
 
 
 
-
 *****************************************************************
 *Scatter: Log GDP Hlo *using data from paper 
 *****************************************************************
@@ -486,7 +504,7 @@ graph export "$output/map_lays.png",replace
 
 
 ***************************************
-* Line graph (time-series) LAYS and EYS over the years
+* Line graph ((lower secondary education completion))
 ***************************************
 
 
@@ -502,20 +520,6 @@ save "$raw_data/region_match.dta",replace
 
 restore
 
-
-
-set scheme plotplain
-
-
-
-import excel "$raw_data\Data_Extract_From_Education_Statistics_-_All_Indicators.xlsx", ///
- firstrow clear
-
-ds, has(type string) // only search strings
-foreach var in `r(varlist)' {
-	replace `var' = "" if `var' == ".." 
-
-}
 
 
 egen id=tag(CountryName CountryCode)
@@ -535,8 +539,8 @@ keep if _merge==3
 
 
 
-
-collapse (mean) completion_rate,by(region Year)
+drop if completion_rate==.
+collapse (median) completion_rate,by(region Year)
 sort region Year
 replace completion_rate= round(completion_rate, .1)
 
@@ -557,8 +561,8 @@ twoway  ///
 		(scatter completion_rate Year if region == "North America" & Year == 2015, mlabel(completion_rate) msymbol(completion_rate) mcolor(green) mlabpos(12))  ///
 		(scatter completion_rate Year if region == "Sub-Saharan Africa" & Year == 2019, mlabel(completion_rate) msymbol(p) mcolor(orange) mlabpos(12)) ,   ///
 		 yscale(r(10(10)100)) ylabel(10(10)100)    ///
-scale(*.7) xtitle( "",size(small)  )  ytitle("Completion rate % (lower secondary education)",size(small)) legend(order( 1 "Europe & Central Asia" 2 "Latin America & Caribbean"  ///
-         3 "Middle East & North Africa" 4 "North America" 5 "Sub-Saharan Africa") position(0) bplacement(seast)) 
+scale(*.9) xtitle( "",size(small)  )  ytitle("Completion rate % ",size(small)) legend(order( 1 "Europe & Central Asia" 2 "Latin America & Caribbean"  ///
+         3 "Middle East & North Africa" 4 "North America" 5 "Sub-Saharan Africa") position(0) bplacement(seast) size(vsmall)) 
 
 
 
