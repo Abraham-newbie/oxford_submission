@@ -16,9 +16,11 @@ This repository contains the submission for the task for the Oxford RA Applicati
 1-2 pager analyzing learning-adjusted years of schooling in Africa relative to other regions with key insights and takeaways. 
 
 ```
+##1-2 Pager
 
-The summary is titled 'RA_Oxford_Submission.pdf'
+The summary is titled 'RA_Oxford_Submission'.
 
+##RShiny App
 
 I also developed a simple RShiny app as an extension to the task, which allows you to visualize Learning outcomes such as LAYS and EYS. You can find the app [here](https://econ-newbie.shinyapps.io/rshinyapp/).
 
@@ -26,4 +28,6 @@ The shiny app uses the Harmonized Learning Outcomes Database and World Bank Huma
 
 
 
+##Code and Data
+The code and data are organized in the repository accordingly within a separate folder structure and labelled.
 
