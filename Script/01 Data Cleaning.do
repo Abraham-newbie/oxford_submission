@@ -1,4 +1,25 @@
 
+************************************ 
+** Initialisization
+************************************ 
+
+        set type double
+        capture log close
+        
+        
+
+************************************ 
+** Setting Globals
+************************************ 
+        
+        
+global root         "C:\Users\abrah\Dropbox\oxford_submission" // Change directory accordingly
+global raw_data     "$root\Raw_data"
+global clean_data   "$root\Clean_data"
+global output       "$root\Output"
+
+
+
 *****************************************************************
 * Lightly Cleaning world bank human capital data (sept 2020)
 *****************************************************************
