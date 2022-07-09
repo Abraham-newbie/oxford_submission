@@ -28,6 +28,7 @@ The shiny app uses the Harmonized Learning Outcomes Database and World Bank Huma
 
 
 
-##Code and Data
-The code and data are organized in the repository accordingly within a separate folder structure and labelled.
+## Code and Data
+The code and data are organized in the repository accordingly in their respective folders.
+
 
