@@ -18,7 +18,10 @@ This repository contains the submission for the task for the Oxford RA Applicati
 ```
 ## 1-2 Pager
 
-The summary is titled 'RA_Oxford_Submission'.
+The summary is titled 'RA_Oxford_Submission'. I briefly study the African context using learning-adjusted years of schooling as a key metric, between-country differences and in comparison to other regions. The brief 
+also evaluates the common direction in previous literature researching the topic and the challenges of improving learning in Africa.
+
+
 
 ## RShiny App
 
