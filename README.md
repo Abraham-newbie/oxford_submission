@@ -10,7 +10,7 @@ RA Task Oxford | [Abraham Raju](https://github.com/Abraham-newbie)
 
 
 
-This repository contains the submission for the task for the Oxford RA Application:
+This repository contains the submission for the following task:
 
 ```
 1-2 pager analyzing learning-adjusted years of schooling in Africa relative to other regions with key insights and takeaways. 
@@ -19,7 +19,7 @@ This repository contains the submission for the task for the Oxford RA Applicati
 ## [1-2 Pager](https://github.com/Abraham-newbie/oxford_submission/blob/main/RA_Oxford_Submission.pdf)
 
 The submission is titled **RA_Oxford_Submission**. I briefly study the African context using learning-adjusted years of schooling as a key metric, between-country differences and in comparison to other regions. The brief 
-also evaluates the common direction in previous literature on the topic and summarizes challenges and solutions for improving learning in Africa.
+also evaluates the common direction in previous literature on the topic and summarizes challenges and solutions for improving learning in Africa. The appendix contains additional plots and visualizations.
 
 
 
